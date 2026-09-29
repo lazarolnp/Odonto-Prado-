@@ -157,29 +157,122 @@
     });
   }
 
-  /* ---------- Animações de entrada ---------- */
+  /* ---------- Animações de entrada (ao rolar) ---------- */
   var reveals = document.querySelectorAll(".reveal");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var canObserve = "IntersectionObserver" in window;
+  var REVEAL_CLASSES = ["reveal", "reveal--left", "reveal--right", "reveal--zoom", "reveal--rise", "reveal--clip"];
 
   // Pequeno atraso escalonado entre itens irmãos (cards, listas).
   reveals.forEach(function (el) {
     var siblings = el.parentElement ? el.parentElement.querySelectorAll(":scope > .reveal") : [];
     var index = Array.prototype.indexOf.call(siblings, el);
-    if (index > 0) el.style.setProperty("--delay", Math.min(index, 6) * 0.07 + "s");
+    if (index > 0) el.style.setProperty("--delay", Math.min(index, 8) * 0.08 + "s");
   });
 
-  if (reduceMotion || !("IntersectionObserver" in window)) {
+  function show(el) {
+    el.classList.add("is-visible");
+    // Terminada a entrada, remove as classes de animação para liberar os efeitos de hover.
+    var delay = parseFloat(el.style.getPropertyValue("--delay")) || 0;
+    window.setTimeout(function () {
+      el.classList.remove.apply(el.classList, REVEAL_CLASSES);
+    }, delay * 1000 + 2000);
+  }
+
+  if (reduceMotion || !canObserve) {
     reveals.forEach(function (el) { el.classList.add("is-visible"); });
   } else {
     var revealObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
+          show(entry.target);
           revealObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
     reveals.forEach(function (el) { revealObserver.observe(el); });
+  }
+
+  /* ---------- Contadores (8 áreas, 4 cidades, 2 dentistas) ---------- */
+  var counters = document.querySelectorAll("[data-count]");
+
+  function runCounter(el) {
+    var target = parseInt(el.getAttribute("data-count"), 10);
+    var duration = 1400;
+    var start = null;
+    function step(t) {
+      if (start === null) start = t;
+      var progress = Math.min((t - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = String(Math.round(target * eased));
+      if (progress < 1) window.requestAnimationFrame(step);
+    }
+    el.textContent = "0";
+    window.requestAnimationFrame(step);
+  }
+
+  if (!reduceMotion && canObserve && counters.length) {
+    var counterObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          window.setTimeout(function () { runCounter(entry.target); }, 400);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(function (el) { counterObserver.observe(el); });
+  }
+
+  /* ---------- Barra de progresso e parallax suave ---------- */
+  var progressBar = document.querySelector(".scroll-progress");
+  var parallaxEls = Array.prototype.slice.call(document.querySelectorAll("[data-parallax]"));
+  var parallaxMq = window.matchMedia("(min-width: 768px)");
+  var motionTicking = false;
+
+  function updateMotion() {
+    motionTicking = false;
+    var vh = window.innerHeight;
+    if (progressBar) {
+      var max = document.documentElement.scrollHeight - vh;
+      progressBar.style.transform = "scaleX(" + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ")";
+    }
+    var enabled = parallaxMq.matches;
+    parallaxEls.forEach(function (el) {
+      if (!enabled) { el.style.transform = ""; return; }
+      // Usa o elemento pai como referência para não medir o próprio deslocamento.
+      var rect = el.parentElement.getBoundingClientRect();
+      if (rect.bottom < -200 || rect.top > vh + 200) return;
+      var offset = (rect.top + rect.height / 2 - vh / 2) * parseFloat(el.getAttribute("data-parallax"));
+      el.style.transform = "translate3d(0," + offset.toFixed(1) + "px,0)";
+    });
+  }
+
+  if (!reduceMotion) {
+    window.addEventListener("scroll", function () {
+      if (!motionTicking) {
+        motionTicking = true;
+        window.requestAnimationFrame(updateMotion);
+      }
+    }, { passive: true });
+    window.addEventListener("resize", updateMotion);
+    updateMotion();
+  }
+
+  /* ---------- Menu: destaca a seção visível ---------- */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav ul a[href^="#"]'));
+  if (canObserve && navLinks.length) {
+    var spyObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var id = "#" + entry.target.id;
+        navLinks.forEach(function (a) {
+          var active = a.getAttribute("href") === id;
+          a.classList.toggle("is-active", active);
+          if (active) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+        });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    document.querySelectorAll("main section[id]").forEach(function (sec) { spyObserver.observe(sec); });
   }
 
   /* ---------- Formulário de contato ---------- */
