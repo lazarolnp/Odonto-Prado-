@@ -15,25 +15,25 @@ assets/img/             Foto da equipe (WebP + JPG), favicon, ícones e imagem d
 site.webmanifest, robots.txt
 ```
 
-Seções: Início · Serviços · Profissionais · Diferenciais · Depoimentos · Cidades atendidas · Contato (WhatsApp, telefone e mapa) · Rodapé.
+Seções: Início · Serviços · Profissionais · Diferenciais · Como funciona · Cidades atendidas · Contato (WhatsApp, telefone e mapa) · Rodapé.
 
-## O que ainda precisa ser preenchido
+## Dados opcionais
 
-Tudo o que falta aparece no site **entre colchetes e em laranja**, para ser fácil de identificar. Nenhum dado foi inventado.
+O site já está completo com textos genéricos. Estes dados podem ser acrescentados quando existirem, em `assets/js/config.js`:
 
-| Placeholder | Onde alterar |
+| Campo | O que acontece ao preencher |
 |---|---|
-| `[EMAIL]` | `assets/js/config.js` → `email` |
-| `[ENDEREÇO DA CLÍNICA]` | `assets/js/config.js` → `address` (também ativa o mapa) |
-| `[INSTAGRAM]` | `assets/js/config.js` → `instagram` (link completo) |
-| `[HORÁRIO DE ATENDIMENTO]` | `index.html`, seção Contato |
-| `[NÚMERO DO CRO]` e `[BIOGRAFIA …]` | `index.html`, seção Profissionais |
-| `[AVALIAÇÃO REAL 1/2/3]`, `[NOME DO PACIENTE]`, `[FONTE]` | `index.html`, seção Depoimentos. Use **somente avaliações reais**, com autorização do paciente |
-| Responsável técnico `[NOME]` / CRO-SE `[NÚMERO]` | `index.html`, rodapé (o CFO exige isso na publicidade odontológica) |
+| `email` | Aparece na seção Contato e no rodapé |
+| `address` | Substitui "Informado no agendamento pelo WhatsApp" e exibe o mapa do Google |
+| `instagram` | Aparece o link do Instagram no rodapé |
 
-Busque por `[` no `index.html` para encontrar todos.
+Enquanto um campo estiver entre colchetes (ex.: `"[EMAIL]"`), o item fica oculto no site.
 
-Os títulos seguem o texto do briefing ("Dr. Alexsandra Prado", "Dr. Antônio Prado"). Se preferir outra forma, como "Dra.", faça uma busca e troque em `index.html`.
+Textos genéricos que podem ser trocados em `index.html`: biografias dos profissionais (seção Profissionais) e horário de atendimento (seção Contato).
+
+A antiga seção de depoimentos virou **"Como funciona"** (3 passos para agendar). Se no futuro quiser mostrar avaliações, use somente avaliações reais de pacientes, com autorização.
+
+Os títulos seguem o texto do briefing ("Dr. Alexsandra Prado", "Dr. Antônio Prado"). Se preferir "Dra.", faça uma busca e troque em `index.html`.
 
 ## WhatsApp
 
@@ -41,7 +41,7 @@ O número já está configurado: **(79) 99809-6738** (`5579998096738`). Todos os
 
 ## Google Maps
 
-Com o endereço preenchido em `config.js`, o mapa aparece sozinho na seção Contato. Ele só carrega quando o visitante rola até perto dele, para não pesar no carregamento. Para usar exatamente o pino da clínica no Google, cole em `mapsEmbedUrl` a URL de Google Maps → Compartilhar → Incorporar um mapa (apenas o valor de `src="..."`).
+Com o endereço preenchido em `config.js`, o mapa aparece sozinho na seção Contato (sem endereço, ele fica oculto). Ele só carrega quando o visitante rola até perto dele, para não pesar no carregamento. Para usar exatamente o pino da clínica no Google, cole em `mapsEmbedUrl` a URL de Google Maps → Compartilhar → Incorporar um mapa (apenas o valor de `src="..."`).
 
 ## SEO
 

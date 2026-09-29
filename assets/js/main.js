@@ -64,6 +64,11 @@
     });
   }
 
+  // Itens opcionais (e-mail, Instagram, mapa) só aparecem depois de configurados.
+  document.querySelectorAll("[data-requires]").forEach(function (el) {
+    if (isSet(config[el.getAttribute("data-requires")])) el.hidden = false;
+  });
+
   document.querySelectorAll("[data-year]").forEach(function (el) {
     el.textContent = String(new Date().getFullYear());
   });
@@ -87,6 +92,7 @@
   }
 
   if (mapSlot && mapSrc) {
+    mapSlot.closest(".map").hidden = false;
     if ("IntersectionObserver" in window) {
       var mapObserver = new IntersectionObserver(function (entries) {
         if (entries[0].isIntersecting) {
