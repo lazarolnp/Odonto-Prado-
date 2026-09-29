@@ -3,7 +3,7 @@
  *
  * Tudo o que ainda está entre colchetes (ex.: "[EMAIL]") é um placeholder:
  * troque pelo dado real e o site passa a usá-lo automaticamente
- * (textos, links, formulário de contato e mapa do Google).
+ * (textos, links e mapa do Google).
  */
 window.CLINICA_CONFIG = {
   // Número usado nos links do WhatsApp (apenas dígitos: DDI 55 + DDD + número).
@@ -18,8 +18,7 @@ window.CLINICA_CONFIG = {
   // Telefone para ligação (formato internacional).
   phone: "+5579998096738",
 
-  // E-mail que recebe as mensagens do formulário de contato.
-  // Ex.: "contato@seudominio.com.br"
+  // E-mail de contato exibido no site. Ex.: "contato@seudominio.com.br"
   email: "[EMAIL]",
 
   // Endereço completo da clínica. Também é usado para montar o mapa do Google.

@@ -10,12 +10,12 @@ Para visualizar localmente: `python3 -m http.server` e abra http://localhost:800
 index.html              Página única com todas as seções
 assets/css/styles.css   Estilos (mobile-first)
 assets/js/config.js     ⚙️ Dados de contato (WhatsApp, e-mail, endereço, Instagram)
-assets/js/main.js       Menu, animações, WhatsApp, formulário e mapa
+assets/js/main.js       Menu, animações, WhatsApp e mapa
 assets/img/             Foto da equipe (WebP + JPG), favicon, ícones e imagem de compartilhamento
 site.webmanifest, robots.txt
 ```
 
-Seções: Início · Serviços · Profissionais · Diferenciais · Depoimentos · Cidades atendidas · Contato (formulário + mapa) · Rodapé.
+Seções: Início · Serviços · Profissionais · Diferenciais · Depoimentos · Cidades atendidas · Contato (WhatsApp, telefone e mapa) · Rodapé.
 
 ## O que ainda precisa ser preenchido
 
@@ -23,11 +23,10 @@ Tudo o que falta aparece no site **entre colchetes e em laranja**, para ser fác
 
 | Placeholder | Onde alterar |
 |---|---|
-| `[EMAIL]` | `assets/js/config.js` → `email` (também ativa o formulário) |
+| `[EMAIL]` | `assets/js/config.js` → `email` |
 | `[ENDEREÇO DA CLÍNICA]` | `assets/js/config.js` → `address` (também ativa o mapa) |
 | `[INSTAGRAM]` | `assets/js/config.js` → `instagram` (link completo) |
 | `[HORÁRIO DE ATENDIMENTO]` | `index.html`, seção Contato |
-| `[FOTO PROFISSIONAL]` | `index.html`, seção Profissionais (há um comentário com o `<img>` pronto) |
 | `[NÚMERO DO CRO]` e `[BIOGRAFIA …]` | `index.html`, seção Profissionais |
 | `[AVALIAÇÃO REAL 1/2/3]`, `[NOME DO PACIENTE]`, `[FONTE]` | `index.html`, seção Depoimentos. Use **somente avaliações reais**, com autorização do paciente |
 | Responsável técnico `[NOME]` / CRO-SE `[NÚMERO]` | `index.html`, rodapé (o CFO exige isso na publicidade odontológica) |
@@ -39,11 +38,6 @@ Os títulos seguem o texto do briefing ("Dr. Alexsandra Prado", "Dr. Antônio Pr
 ## WhatsApp
 
 O número já está configurado: **(79) 99809-6738** (`5579998096738`). Todos os botões de agendamento, o botão flutuante e os links dos cards de serviço (que já abrem a conversa com uma mensagem sobre o serviço) usam o valor de `assets/js/config.js`.
-
-## Formulário de contato
-
-- **Sem e-mail configurado:** ao enviar, o formulário abre o WhatsApp com os dados do paciente já escritos. Assim nenhum contato se perde.
-- **Com e-mail configurado:** o envio é feito pelo [FormSubmit](https://formsubmit.co), que é gratuito e não exige servidor. No **primeiro envio**, o FormSubmit manda um e-mail de ativação para o endereço configurado: clique em "Activate" e os próximos pedidos chegam direto na caixa de entrada.
 
 ## Google Maps
 
@@ -70,4 +64,4 @@ Tudo usa apenas `transform`/`opacity` (leve para o celular) e é desativado auto
 
 ## Imagens
 
-A foto da equipe foi otimizada em WebP (26–57 KB) com JPG de reserva, em dois tamanhos (560 e 896 px). Para as fotos individuais, use cerca de 800 px de largura em WebP.
+A foto da equipe foi otimizada em WebP (26–57 KB) com JPG de reserva, em dois tamanhos (560 e 896 px). 
